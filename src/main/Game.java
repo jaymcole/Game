@@ -2,16 +2,18 @@ package main;
 
 import java.awt.Graphics;
 
-public class Game {
+import javax.swing.JFrame;
+
+public class Game extends JFrame{
 
 	public static final int UPS = 60;
 	public static final int FPS = 60;
 	public static final boolean RENDER_TIME = true;
 
 	private boolean running;
-	private GameScreen window;
+	private Screen window;
 
-	public Game(GameScreen window) {
+	public Game(Screen window) {
 		running = true;
 	}
 
@@ -72,7 +74,7 @@ public class Game {
 	}
 
 	public static void main(String[] args) {
-		Game game = new Game(new GameScreen());
+		Game game = new Game(new Screen());
 		game.run();
 	}
 }
