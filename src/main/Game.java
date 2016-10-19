@@ -1,22 +1,55 @@
 package main;
 
-import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.DisplayMode;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Window;
 
-import javax.swing.JFrame;
-
-public class Game extends JFrame{
+public class Game {
 
 	public static final int UPS = 60;
 	public static final int FPS = 60;
 	public static final boolean RENDER_TIME = true;
 
-	private boolean running;
-	private Screen window;
+	private static DisplayMode modes[] = {
+			new DisplayMode(1920, 1080, 32, 0),
+			new DisplayMode(1920, 1080, 24, 0),
+			new DisplayMode(1920, 1080, 16, 0),
+			new DisplayMode(800, 600, 32, 0),
+			new DisplayMode(800, 600, 24, 0),
+			new DisplayMode(800, 600, 16, 0),
+			new DisplayMode(640, 480, 32, 0),
+			new DisplayMode(640, 480, 24, 0),
+			new DisplayMode(640, 480, 16, 0)
+	};
 
-	public Game(Screen window) {
-		running = true;
+	private boolean running; 
+	protected ScreenManager s;
+
+	public Game(Screen window) {		
+		try { 
+			init();
+			run();
+		}finally {
+			s.restoreScreen();
+		}
 	}
 
+	public void init()
+	{
+		s = new ScreenManager();
+		DisplayMode dm = s.findFirstCompatibleMode(modes);
+		s.setFullScreen(dm);
+		
+		Window w = s.getFullScreenWindow();
+		w.setFont(new Font("Arial", Font.PLAIN, 20));
+		w.setBackground(Color.GREEN);
+		w.setForeground(Color.WHITE);
+		running = true;
+	}
+	
 	public void run() {
 
 		long initialTime = System.nanoTime();
@@ -35,7 +68,7 @@ public class Game extends JFrame{
 
 			if (deltaU >= 1) {
 				getInput();
-				update();
+				update(currentTime);
 				ticks++;
 				deltaU--;
 			}
@@ -58,19 +91,30 @@ public class Game extends JFrame{
 	}
 
 	private void getInput() {
-
+		
 	}
 
-	private void update() {
-
+	private void update(long timePassed) {
+		//s.update();
 	}
 
 	private void render() {
-
+		
+		
+		Graphics2D g = s.getGraphics();
+		draw(g);
+		g.dispose();
+		s.update();
 	}
-
-	public void paintComponent(Graphics g) {
-
+	
+	public synchronized void draw(Graphics2D g)
+	{
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, s.getWidth(), s.getheight());
+		
+		g.setColor(Color.CYAN);
+		g.draw(new Rectangle(s.getWidth()/2, s.getheight()/2, 200, 75));
+		
 	}
 
 	public static void main(String[] args) {
