@@ -7,9 +7,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Window;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+import javafx.scene.input.KeyCode;
 import objects.TestObject;
 
 public class Game {
@@ -18,7 +21,6 @@ public class Game {
 	public static final int FPS = 60;
 	public static final boolean RENDER_TIME = true;
 	public static final boolean DEBUG = false;
-	
 
 	private static DisplayMode modes[] = {
 			new DisplayMode(1920, 1080, 32, 0),
@@ -64,7 +66,7 @@ public class Game {
 		Random rand = new Random();
 		int bx = s.getWidth();
 		int by = s.getheight();
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 10; i++) {
 			om.add(new TestObject(new Point2D.Double((bx/2) + (rand.nextInt(200)-100),  (by/2) + (rand.nextInt(200)-100)), rand.nextInt(360), bx, by, om));
 		}
 		
@@ -117,14 +119,13 @@ public class Game {
 		
 	}
 
-	private void update(long deltaTime) {
-		//s.update();
-		om.tick(deltaTime);
+	private long oldTime = System.nanoTime();
+	private void update(long currentTime) {
+		om.tick((currentTime - oldTime)/100000);
+		oldTime = System.nanoTime();
 	}
 
 	private void render() {
-		
-		
 		Graphics2D g = s.getGraphics();
 		draw(g);		
 		g.dispose();
@@ -151,5 +152,9 @@ public class Game {
 	public static void main(String[] args) {
 		Game game = new Game(new Screen());
 		game.run();
+	}
+
+	private void exit() {
+		System.exit(0);
 	}
 }
