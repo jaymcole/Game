@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 public class ObjectManager {
 	
-	public static final int MAX_OBJECTS = 15000;
+	public static final int MAX_OBJECTS = 5000;
 	
 	private LinkedList<GameObject> objects;
 	

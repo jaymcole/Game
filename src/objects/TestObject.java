@@ -36,7 +36,7 @@ public class TestObject extends GameObject {
 		rotSpeed = rand.nextFloat() + 0.5f;
 		setDirection();
 		movePos = new Point2D.Double(pos.getX(), pos.getY());
-		lifespan = rand.nextInt(10000) + 20000;
+		lifespan = rand.nextInt(10000) + 50000;
 	}
 	
 	public TestObject(Point2D pos, float rot, int bx, int by, ObjectManager om, Color color) {
@@ -51,7 +51,7 @@ public class TestObject extends GameObject {
 		rotSpeed = rand.nextFloat() + 0.5f;
 		setDirection();
 		movePos = new Point2D.Double(pos.getX(), pos.getY());
-		lifespan = rand.nextInt(10000) + 20000;
+		lifespan = rand.nextInt(60000) + 10000;
 	}
 	
 	@Override
@@ -132,6 +132,8 @@ public class TestObject extends GameObject {
 			g.drawString("Rot " + rot, (int)pos.getX(), (int)pos.getY() - 30);
 			g.drawString("SPD: " + speed + "\t RSPD: " + rotSpeed + " \t DIR: " + dir, (int)pos.getX(), (int)pos.getY() - 40);
 		}
+		
+		g.drawString("" + lifespan, (int)pos.getX(), (int)pos.getY());
 		
 		g.setColor(Color.CYAN);
 		g.draw(bounds);
